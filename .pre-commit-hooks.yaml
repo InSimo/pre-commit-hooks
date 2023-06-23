@@ -14,7 +14,7 @@
 
 -   id: clang-format-diff
     name: clang-format-diff
-    entry: clang_format.py
+    entry: clang_format_entry.sh
     language: script
     args: ['15.0.0','diff']
     require_serial: true

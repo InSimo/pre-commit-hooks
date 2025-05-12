@@ -125,7 +125,10 @@ def download_clang_format(sha: str, dest: Path) -> None:
             os.chmod(outfile.name, st.st_mode | stat.S_IEXEC)
 
             print(f"Moving downloaded clang-format to {dest.resolve()}")
-            Path(outfile.name).rename(dest)
+            try:
+                Path(outfile.name).rename(dest)
+            except FileExistsError:
+                pass
 
 
 def check_hash(sha: str, file: Path) -> None:
@@ -165,7 +168,7 @@ def clang_format_path(version: Tuple[int, int, int]) -> Path:
     cachedir = base_cachedir.joinpath("pre-commit-jlebar")
 
     if not cachedir.exists():
-        cachedir.mkdir()
+        cachedir.mkdir(exist_ok=True)
         with cachedir.joinpath("README").open("w") as f:
             f.write(
                 """\
